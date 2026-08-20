@@ -1,18 +1,18 @@
-import BrandHeader from "@/components/BrandHeader";
+import AuthLayout from "@/components/AuthLayout";
 import SignupForm from "@/components/SignupForm";
-import PhotoBackdrop from "@/components/PhotoBackdrop";
+import { brand } from "@/lib/config/brand";
 
 export default function SignupPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
-      <BrandHeader />
-      <PhotoBackdrop className="flex flex-1 items-center">
-        <div className="mx-auto flex w-full max-w-6xl justify-center px-4 py-12 lg:justify-end">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
-            <SignupForm />
-          </div>
-        </div>
-      </PhotoBackdrop>
-    </div>
+    <AuthLayout
+      welcome="Start selling,"
+      welcomeAccent="today."
+      intro={`Create a free ${brand.name} account and list your first car in a minute. Your listing appears on the homepage for every visitor to see.`}
+      title="Create"
+      titleAccent="Account"
+      subtitle="Join in under a minute"
+    >
+      <SignupForm />
+    </AuthLayout>
   );
 }

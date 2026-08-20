@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { brand } from "@/lib/config/brand";
 import { getSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import BackendNotConnected from "./BackendNotConnected";
@@ -11,58 +10,49 @@ import {
   ErrorText,
   MailIcon,
   OrDivider,
-  PasswordField,
   ShieldIcon,
-  SignInIcon,
   SubmitButton,
   TextField,
 } from "./auth-fields";
 
-export default function SignupForm() {
-  const router = useRouter();
+export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [checkEmail, setCheckEmail] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const supabase = getSupabaseBrowserClient();
     if (!supabase) return;
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
-      return;
-    }
     setBusy(true);
     setError(null);
+
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: `${siteUrl}/auth/confirm` },
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${siteUrl}/auth/confirm?next=/reset-password`,
     });
     setBusy(false);
-    if (error) {
-      setError("Sign-up failed. Try a different email or a longer password.");
+
+    // Show the SAME confirmation whether or not that address has an account.
+    // Reporting "no such user" would turn this form into a way of discovering
+    // who is registered. Only a transport-level failure surfaces an error.
+    if (error && error.status && error.status >= 500) {
+      setError("Couldn't send the email just now. Please try again in a moment.");
       return;
     }
-    if (data.session) {
-      // Email confirmation is OFF (the workshop default) — signed in already.
-      router.push("/app");
-      router.refresh();
-    } else {
-      // Email confirmation is ON — tell the user to check their inbox.
-      setCheckEmail(true);
-    }
+    setSent(true);
   }
 
-  if (checkEmail) {
+  if (sent) {
     return (
       <div className="w-full text-center">
         <p className="text-gray-600">
-          We sent a confirmation link to <strong className="break-words">{email}</strong>. Click
-          it to finish creating your account, then sign in.
+          If an account exists for <strong className="break-words">{email}</strong>, we&apos;ve
+          sent it a link to reset the password. The link expires in about an hour.
+        </p>
+        <p className="mt-3 text-sm text-gray-500">
+          Nothing arrived? Check your spam folder, then try again.
         </p>
         <Link
           href="/login"
@@ -96,21 +86,10 @@ export default function SignupForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <PasswordField
-          id="password"
-          label="Password"
-          hint="(at least 8 characters)"
-          required
-          autoComplete="new-password"
-          placeholder="Choose a password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
         {error && <ErrorText>{error}</ErrorText>}
 
-        <SubmitButton busy={busy} busyLabel="Creating account…" icon={<SignInIcon />}>
-          Create account
+        <SubmitButton busy={busy} busyLabel="Sending…" icon={<MailIcon />}>
+          Send reset link
         </SubmitButton>
       </form>
 
@@ -118,25 +97,14 @@ export default function SignupForm() {
         <OrDivider />
 
         <Link
-          href="/"
+          href="/login"
           className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 font-medium text-gray-700 hover:bg-gray-50"
         >
           <ShieldIcon />
-          Back to website
+          Back to sign in
         </Link>
 
-        <p className="text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="font-medium hover:underline"
-            style={{ color: brand.primaryColor }}
-          >
-            Sign in
-          </Link>
-        </p>
-
-        <CardFootnote>Free to join. Only you can edit your own listings.</CardFootnote>
+        <CardFootnote>We never reveal whether an address has an account.</CardFootnote>
       </div>
     </div>
   );

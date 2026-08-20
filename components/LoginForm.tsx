@@ -6,6 +6,17 @@ import { useRouter } from "next/navigation";
 import { brand } from "@/lib/config/brand";
 import { getSupabaseBrowserClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import BackendNotConnected from "./BackendNotConnected";
+import {
+  CardFootnote,
+  ErrorText,
+  MailIcon,
+  OrDivider,
+  PasswordField,
+  ShieldIcon,
+  SignInIcon,
+  SubmitButton,
+  TextField,
+} from "./auth-fields";
 
 export default function LoginForm({ confirmError = false }: { confirmError?: boolean }) {
   const router = useRouter();
@@ -25,6 +36,7 @@ export default function LoginForm({ confirmError = false }: { confirmError?: boo
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
     if (error) {
+      // Deliberately generic: never reveal whether an account exists.
       setError("Sign-in failed. Check your email and password and try again.");
       return;
     }
@@ -34,57 +46,76 @@ export default function LoginForm({ confirmError = false }: { confirmError?: boo
 
   return (
     <div className="w-full">
-      <h1 className="text-2xl font-bold">Sign in</h1>
       {!isSupabaseConfigured() && (
-        <div className="mt-4">
+        <div className="mb-5">
           <BackendNotConnected />
         </div>
       )}
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-offset-1"
-          />
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <TextField
+          id="email"
+          label="Email address"
+          icon={<MailIcon />}
+          type="email"
+          required
+          autoComplete="email"
+          placeholder="Enter your email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <PasswordField
+          id="password"
+          label="Password"
+          required
+          autoComplete="current-password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <div className="flex justify-end">
+          <Link
+            href="/forgot-password"
+            className="text-sm font-medium hover:underline"
+            style={{ color: brand.primaryColor }}
+          >
+            Forgot password?
+          </Link>
         </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            required
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-offset-1"
-          />
-        </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        <button
-          type="submit"
-          disabled={busy}
-          className="w-full rounded-md px-4 py-2 font-medium text-white disabled:opacity-60"
-          style={{ backgroundColor: brand.primaryColor }}
-        >
-          {busy ? "Signing in…" : "Sign in"}
-        </button>
+
+        {error && <ErrorText>{error}</ErrorText>}
+
+        <SubmitButton busy={busy} busyLabel="Signing in…" icon={<SignInIcon />}>
+          Sign in
+        </SubmitButton>
       </form>
-      <p className="mt-4 text-sm text-gray-600">
-        No account yet?{" "}
-        <Link href="/signup" className="underline" style={{ color: brand.primaryColor }}>
-          Sign up
+
+      <div className="mt-6 space-y-4">
+        <OrDivider />
+
+        <Link
+          href="/"
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 font-medium text-gray-700 hover:bg-gray-50"
+        >
+          <ShieldIcon />
+          Back to website
         </Link>
-      </p>
+
+        <p className="text-center text-sm text-gray-600">
+          No account yet?{" "}
+          <Link
+            href="/signup"
+            className="font-medium hover:underline"
+            style={{ color: brand.primaryColor }}
+          >
+            Sign up
+          </Link>
+        </p>
+
+        <CardFootnote>Secure sign-in. Your listings are private to you.</CardFootnote>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
-import BrandHeader from "@/components/BrandHeader";
+import AuthLayout from "@/components/AuthLayout";
 import LoginForm from "@/components/LoginForm";
-import PhotoBackdrop from "@/components/PhotoBackdrop";
+import { brand } from "@/lib/config/brand";
 
 export default async function LoginPage({
   searchParams,
@@ -9,17 +9,15 @@ export default async function LoginPage({
 }) {
   const { error } = await searchParams;
   return (
-    <div className="flex min-h-screen flex-col bg-white">
-      <BrandHeader />
-      <PhotoBackdrop className="flex flex-1 items-center">
-        {/* The photo leaves space on the right — the card sits there on wide
-            screens and centres on narrow ones. */}
-        <div className="mx-auto flex w-full max-w-6xl justify-center px-4 py-12 lg:justify-end">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
-            <LoginForm confirmError={error === "confirm"} />
-          </div>
-        </div>
-      </PhotoBackdrop>
-    </div>
+    <AuthLayout
+      welcome="Welcome back,"
+      welcomeAccent="seller."
+      intro={`Sign in to manage your ${brand.name} listings — add a car, update the details, or take one off the market.`}
+      title="Seller"
+      titleAccent="Portal"
+      subtitle="Please sign in to continue"
+    >
+      <LoginForm confirmError={error === "confirm"} />
+    </AuthLayout>
   );
 }

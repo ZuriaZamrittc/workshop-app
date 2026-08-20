@@ -23,9 +23,17 @@ export default function PhotoBackdrop({
         fill
         priority
         sizes="100vw"
-        className="-z-10 object-cover"
+        // Anchored left so the car stays in frame at any viewport width,
+        // matching the sample's composition.
+        className="-z-10 object-cover object-left"
       />
-      <div className="absolute inset-0 -z-10 bg-black/55" aria-hidden="true" />
+      {/* Gradient rather than a flat wash: light over the car on the left so
+          it reads as a photo, deepening to the right so the darker panel
+          behind the card matches the sample. */}
+      <div
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-black/30 via-black/45 to-black/70"
+        aria-hidden="true"
+      />
       {children}
     </div>
   );

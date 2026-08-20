@@ -22,7 +22,7 @@ export default function CarCard({
   const photo = carPhotoUrl(car.photo_path);
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-gray-200 p-4">
+    <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-4">
       {/* Fixed 16:9 box so cards stay aligned whether or not there's a photo. */}
       <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-gray-100">
         {photo ? (

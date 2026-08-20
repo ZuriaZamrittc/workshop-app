@@ -168,8 +168,8 @@ export default function MyCarsClient({
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="border-b border-gray-200 bg-white">
+    <div className="min-h-screen bg-gray-900">
+      <header className="border-b border-white/10 bg-gray-900">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
           <Link
             href="/"
@@ -180,10 +180,10 @@ export default function MyCarsClient({
             {brand.name}
           </Link>
           <div className="flex items-center gap-3 text-sm">
-            <span className="hidden text-gray-500 sm:inline">{userEmail}</span>
+            <span className="hidden text-gray-400 sm:inline">{userEmail}</span>
             <button
               onClick={handleSignOut}
-              className="rounded-md border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50"
+              className="rounded-md border border-white/25 px-3 py-1.5 text-gray-200 hover:bg-white/10"
             >
               Sign out
             </button>
@@ -192,8 +192,8 @@ export default function MyCarsClient({
       </header>
 
       <main className="mx-auto max-w-4xl px-4 py-8">
-        <h1 className="text-2xl font-bold">Your listings</h1>
-        <p className="mt-1 text-sm text-gray-600">
+        <h1 className="text-2xl font-bold text-white">Your listings</h1>
+        <p className="mt-1 text-sm text-gray-400">
           Anyone can see these on the homepage. Only you can edit or remove them.
         </p>
 
@@ -201,13 +201,13 @@ export default function MyCarsClient({
           <CarForm onSubmit={handleCreate} submitLabel="List this car" busyLabel="Listing…" />
         </div>
 
-        {error && <p className="mt-6 text-sm text-red-600">{error}</p>}
+        {error && <p className="mt-6 text-sm text-red-400">{error}</p>}
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {loading ? (
-            <p className="text-gray-500">Loading…</p>
+            <p className="text-gray-400">Loading…</p>
           ) : cars.length === 0 ? (
-            <p className="rounded-lg border border-dashed border-gray-300 p-6 text-center text-gray-500 sm:col-span-2">
+            <p className="rounded-lg border border-dashed border-white/20 p-6 text-center text-gray-400 sm:col-span-2">
               No listings yet — add your first car above.
             </p>
           ) : (
@@ -246,7 +246,7 @@ export default function MyCarsClient({
                       <>
                         <button
                           onClick={() => setEditingId(car.id)}
-                          className="rounded-md border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50"
+                          className="rounded-md border border-white/25 px-3 py-1.5 text-gray-200 hover:bg-white/10"
                         >
                           Edit
                         </button>

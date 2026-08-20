@@ -11,7 +11,7 @@ export const brand = {
   tagline: "Buy and sell cars, simply.",
 
   /** Main accent color (any CSS color, e.g. "#4f46e5" or "rebeccapurple"). */
-  primaryColor: "#007FFF",
+  primaryColor: "#DC2626",
 
   /** Logo image in /public — swap the file or point to a new one. */
   logo: "/logo.svg",

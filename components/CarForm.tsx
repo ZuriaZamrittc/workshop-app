@@ -169,7 +169,7 @@ export default function CarForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-gray-200 p-4">
+    <form onSubmit={handleSubmit} className="space-y-3 rounded-xl border border-gray-200 bg-white p-4">
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
           <label htmlFor="car-make" className="block text-sm font-medium">

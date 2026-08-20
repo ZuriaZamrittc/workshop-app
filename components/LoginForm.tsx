@@ -33,7 +33,7 @@ export default function LoginForm({ confirmError = false }: { confirmError?: boo
   }
 
   return (
-    <div className="mx-auto mt-12 w-full max-w-sm px-4">
+    <div className="w-full">
       <h1 className="text-2xl font-bold">Sign in</h1>
       {!isSupabaseConfigured() && (
         <div className="mt-4">

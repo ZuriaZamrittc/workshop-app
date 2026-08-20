@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BrandHeader from "@/components/BrandHeader";
 import BrowseClient from "@/components/BrowseClient";
+import PhotoBackdrop from "@/components/PhotoBackdrop";
 import { brand } from "@/lib/config/brand";
 
 // ─────────────────────────────────────────────────────────────
@@ -21,20 +22,21 @@ type SectionId = (typeof SECTION_ORDER)[number];
 
 const sections: Record<SectionId, React.ReactNode> = {
   hero: (
-    <section key="hero" className="px-4 pt-12 pb-6 text-center">
-      {brand.showWorkshopBadge && (
-        <span className="mb-4 inline-block rounded-full border border-gray-300 px-3 py-1 text-xs text-gray-600">
-          Built at the TimeTec AI Workshop
-        </span>
-      )}
-      <h1 className="mx-auto max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl">
-        {headline}
-      </h1>
-      <p className="mx-auto mt-4 max-w-xl text-lg text-gray-600">{subcopy}</p>
-      <p className="mt-2 text-sm font-medium" style={{ color: brand.primaryColor }}>
-        {brand.tagline}
-      </p>
-    </section>
+    // Text is white here because it sits on the dark showroom photo.
+    <PhotoBackdrop key="hero">
+      <section className="px-4 py-20 text-center sm:py-28">
+        {brand.showWorkshopBadge && (
+          <span className="mb-4 inline-block rounded-full border border-white/30 px-3 py-1 text-xs text-gray-200">
+            Built at the TimeTec AI Workshop
+          </span>
+        )}
+        <h1 className="mx-auto max-w-2xl text-4xl font-bold tracking-tight text-white drop-shadow sm:text-5xl">
+          {headline}
+        </h1>
+        <p className="mx-auto mt-4 max-w-xl text-lg text-gray-200">{subcopy}</p>
+        <p className="mt-2 text-sm font-medium text-white/90">{brand.tagline}</p>
+      </section>
+    </PhotoBackdrop>
   ),
   browse: <BrowseClient key="browse" />,
   cta: (

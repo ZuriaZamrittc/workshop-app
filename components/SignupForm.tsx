@@ -48,7 +48,7 @@ export default function SignupForm() {
 
   if (checkEmail) {
     return (
-      <div className="mx-auto mt-12 w-full max-w-sm px-4">
+      <div className="w-full">
         <h1 className="text-2xl font-bold">Check your email</h1>
         <p className="mt-3 text-gray-600">
           We sent a confirmation link to <strong>{email}</strong>. Click it to finish
@@ -59,7 +59,7 @@ export default function SignupForm() {
   }
 
   return (
-    <div className="mx-auto mt-12 w-full max-w-sm px-4">
+    <div className="w-full">
       <h1 className="text-2xl font-bold">Create your account</h1>
       {!isSupabaseConfigured() && (
         <div className="mt-4">

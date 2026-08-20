@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BrandHeader from "@/components/BrandHeader";
+import BrowseClient from "@/components/BrowseClient";
 import { brand } from "@/lib/config/brand";
 
 // ─────────────────────────────────────────────────────────────
@@ -7,18 +8,12 @@ import { brand } from "@/lib/config/brand";
 // Edit the words below, or reorder the sections in SECTION_ORDER.
 // ─────────────────────────────────────────────────────────────
 
-const headline = "Keep track of the stuff that matters.";
+const headline = "Find your next car.";
 const subcopy =
-  "A private list that's yours alone. Add notes, ideas and reminders — they're saved securely and only you can see them.";
-
-const howItWorks = [
-  { title: "1. Create an account", text: "Sign up with just an email and a password." },
-  { title: "2. Add your items", text: "Notes, ideas, tasks — anything you want to keep." },
-  { title: "3. Come back anytime", text: "Your list is saved in the cloud, private to you." },
-];
+  "Browse cars for sale from local sellers. No account needed to look — sign up when you're ready to sell one of your own.";
 
 // Reorder these to change the page layout (Module 4 layout edit).
-const SECTION_ORDER = ["hero", "how-it-works", "cta"] as const;
+const SECTION_ORDER = ["hero", "browse", "cta"] as const;
 
 // ─────────────────────────────────────────────────────────────
 
@@ -26,7 +21,7 @@ type SectionId = (typeof SECTION_ORDER)[number];
 
 const sections: Record<SectionId, React.ReactNode> = {
   hero: (
-    <section key="hero" className="px-4 py-16 text-center">
+    <section key="hero" className="px-4 pt-12 pb-6 text-center">
       {brand.showWorkshopBadge && (
         <span className="mb-4 inline-block rounded-full border border-gray-300 px-3 py-1 text-xs text-gray-600">
           Built at the TimeTec AI Workshop
@@ -41,29 +36,20 @@ const sections: Record<SectionId, React.ReactNode> = {
       </p>
     </section>
   ),
-  "how-it-works": (
-    <section key="how-it-works" className="px-4 py-12">
-      <h2 className="text-center text-2xl font-semibold">How it works</h2>
-      <div className="mx-auto mt-8 grid max-w-4xl gap-6 sm:grid-cols-3">
-        {howItWorks.map((step) => (
-          <div key={step.title} className="rounded-xl border border-gray-200 p-6">
-            <h3 className="font-semibold">{step.title}</h3>
-            <p className="mt-2 text-sm text-gray-600">{step.text}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  ),
+  browse: <BrowseClient key="browse" />,
   cta: (
-    <section key="cta" className="px-4 py-16 text-center">
-      <h2 className="text-2xl font-semibold">Ready to start?</h2>
+    <section key="cta" className="border-t border-gray-200 px-4 py-16 text-center">
+      <h2 className="text-2xl font-semibold">Got a car to sell?</h2>
+      <p className="mx-auto mt-2 max-w-md text-gray-600">
+        List it in a minute. Your listing appears here for every visitor to see.
+      </p>
       <div className="mt-6 flex justify-center gap-4">
         <Link
           href="/signup"
           className="rounded-md px-5 py-2.5 font-medium text-white"
           style={{ backgroundColor: brand.primaryColor }}
         >
-          Create your account
+          Start selling
         </Link>
         <Link
           href="/login"

@@ -8,7 +8,7 @@ export const brand = {
   name: "Zuria's Car",
 
   /** One-line tagline shown under the name on the homepage. */
-  tagline: "Your private list of everything that matters.",
+  tagline: "Buy and sell cars, simply.",
 
   /** Main accent color (any CSS color, e.g. "#4f46e5" or "rebeccapurple"). */
   primaryColor: "#007FFF",
